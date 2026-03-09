@@ -3,74 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>⭐ Desafio Bíblico Kids | ImpulsoWeb10</title>
-    <meta name="google-site-verification" content="Xz_2AAmdPmp8Z-4dD1Ji-ZoX2YU2kUZovEK9f03HgBM" />
-    <meta property="og:title" content="⭐ Desafio Bíblico Kids - Jogue Agora!">
-    <meta property="og:description" content="50 perguntas bíblicas divertidas para crianças. Quem fará mais pontos?">
-    <meta property="og:image" content="https://impulsoweb10.github.io/Jogos-biblicos/capa-jogo.jpg">
-    <meta property="og:url" content="https://impulsoweb10.github.io/Jogos-biblicos/">
     
+    <meta property="og:title" content="⭐ Desafio Bíblico Kids - Jogue Agora!">
+    <meta property="og:description" content="50 perguntas bíblicas divertidas para crianças. Quem ganha o desafio?">
+    <meta property="og:image" content="https://impulsoweb10.github.io/Jogos-biblicos/capa-jogo.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #f0f9ff; user-select: none; }
+        body { font-family: 'Quicksand', sans-serif; background-color: #f0f9ff; overflow-x: hidden; }
         .font-kids { font-family: 'Fredoka One', cursive; }
         .modal { display: none; position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
         .modal.active { display: flex; }
-        .player-active { ring: 8px; ring-color: #fbbf24; transform: scale(1.05); transition: all 0.3s; }
+        .player-active { ring: 8px; ring-color: #fbbf24; transform: scale(1.05); transition: all 0.3s; z-index: 10; }
         .card-pergunta:disabled { background: #e2e8f0; color: #cbd5e1; cursor: not-allowed; transform: none !important; }
+        
+        /* Animação de Estrelinhas */
+        @keyframes star-pop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1.5); opacity: 1; } }
+        .star-anim { animation: star-pop 0.5s forwards; }
     </style>
 </head>
-<body class="p-4">
+<body class="p-4 flex flex-col min-h-screen">
 
-    <header class="max-w-4xl mx-auto text-center mb-6">
-        <h1 class="text-3xl md:text-5xl text-blue-600 font-kids mb-6 drop-shadow-md uppercase tracking-tighter">Desafio Bíblico Kids</h1>
+    <header class="max-w-4xl mx-auto text-center mb-6 w-full">
+        <h1 class="text-3xl md:text-5xl text-blue-600 font-kids mb-6 drop-shadow-md uppercase">Desafio Bíblico Kids</h1>
         
         <div class="grid grid-cols-2 gap-4">
             <div id="p1-area" class="bg-white p-4 rounded-[2rem] shadow-xl border-b-8 border-blue-500 player-active">
-                <input type="text" id="name1" placeholder="Nome Criança 1" class="w-full text-center font-bold text-blue-600 outline-none bg-blue-50 rounded-xl py-1 uppercase text-sm">
+                <input type="text" id="name1" placeholder="Nome Criança 1" class="w-full text-center font-bold text-blue-600 outline-none bg-blue-50 rounded-xl py-2 uppercase text-xs">
                 <div class="text-5xl font-kids text-blue-500 mt-2" id="score1">0</div>
             </div>
             <div id="p2-area" class="bg-white p-4 rounded-[2rem] shadow-xl border-b-8 border-pink-500">
-                <input type="text" id="name2" placeholder="Nome Criança 2" class="w-full text-center font-bold text-pink-600 outline-none bg-pink-50 rounded-xl py-1 uppercase text-sm">
+                <input type="text" id="name2" placeholder="Nome Criança 2" class="w-full text-center font-bold text-pink-600 outline-none bg-pink-50 rounded-xl py-2 uppercase text-xs">
                 <div class="text-5xl font-kids text-pink-500 mt-2" id="score2">0</div>
             </div>
         </div>
         
-        <div id="turn-indicator" class="mt-4 bg-blue-500 text-white inline-block px-8 py-2 rounded-full font-black uppercase text-xs animate-pulse">
+        <div id="turn-indicator" class="mt-4 bg-yellow-400 text-white inline-block px-10 py-2 rounded-full font-black uppercase text-xs shadow-lg">
             Vez de começar! 🚀
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto grid grid-cols-5 md:grid-cols-10 gap-2 mb-8" id="questions-grid"></main>
+    <main class="max-w-5xl mx-auto grid grid-cols-5 md:grid-cols-10 gap-2 mb-8 flex-grow" id="questions-grid"></main>
 
-    <div class="text-center mb-10">
-        <a href="https://api.whatsapp.com/send?text=Olha que legal esse Jogo Bíblico! Jogue aqui: https://impulsoweb10.github.io/Jogos-biblicos/" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition inline-flex items-center">
-            <i class="fab fa-whatsapp mr-2"></i> Convidar um Amigo
-        </a>
-    </div>
+    <footer class="mt-auto py-8 text-center">
+        <div class="mb-4">
+            <a href="https://api.whatsapp.com/send?text=Jogue o Desafio Bíblico Kids! https://impulsoweb10.github.io/Jogos-biblicos/" target="_blank" class="bg-green-500 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition inline-flex items-center uppercase text-xs">
+                <i class="fab fa-whatsapp mr-2 text-lg"></i> Convidar Amigos
+            </a>
+        </div>
+        <p class="text-gray-400 font-bold text-sm tracking-widest uppercase">
+            Desenvolvido por: <span class="text-blue-500">Impulso</span><span class="text-orange-500">Web10</span>
+        </p>
+    </footer>
 
     <div id="quizModal" class="modal">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 m-4 shadow-2xl text-center">
-            <h3 id="question-text" class="text-2xl font-kids text-blue-900 mb-6">?</h3>
+        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 m-4 shadow-2xl text-center relative overflow-hidden">
+            <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20"></div>
+            <h3 id="question-text" class="text-2xl font-kids text-blue-900 mb-8">?</h3>
             <div class="flex flex-col gap-3" id="options-container"></div>
         </div>
     </div>
 
     <div id="winModal" class="modal">
         <div class="bg-white w-full max-w-lg rounded-[3rem] p-10 m-4 shadow-2xl text-center border-8 border-yellow-400">
-            <div class="text-7xl mb-4">🏆</div>
-            <h2 id="win-title" class="text-5xl font-kids text-blue-600 mb-4 uppercase"></h2>
-            <p id="rival-msg" class="text-xl font-bold text-gray-500 italic"></p>
-            <button onclick="location.reload()" class="mt-8 bg-orange-500 text-white px-10 py-4 rounded-2xl font-black uppercase shadow-xl hover:bg-orange-600">Jogar de Novo</button>
+            <div class="text-8xl mb-4">🏆</div>
+            <h2 id="win-title" class="text-4xl md:text-5xl font-kids text-blue-600 mb-4 uppercase leading-tight"></h2>
+            <p id="rival-msg" class="text-xl font-bold text-gray-500 italic mb-8"></p>
+            <button onclick="location.reload()" class="bg-orange-500 text-white px-10 py-4 rounded-2xl font-black uppercase shadow-xl hover:bg-orange-600 transition transform hover:scale-110">Jogar de Novo</button>
         </div>
     </div>
 
     <script>
-        // Perguntas (Resumidas para o código não ficar gigante, adicione as outras seguindo o padrão)
         const questions = [
             { q: "Quem construiu a arca?", options: ["Noé", "Moisés", "Davi"], correct: 0 },
             { q: "Quem derrotou Golias?", options: ["Samuel", "Davi", "Saul"], correct: 1 },
@@ -78,11 +85,11 @@
             { q: "Mãe de Jesus?", options: ["Rute", "Ester", "Maria"], correct: 2 },
             { q: "Abriu o Mar Vermelho?", options: ["Josué", "Moisés", "Elias"], correct: 1 },
             { q: "Homem mais forte?", options: ["Sansão", "Gideão", "Pedro"], correct: 0 },
-            { q: "Quantos discípulos Jesus tinha?", options: ["7", "10", "12"], correct: 2 },
+            { q: "Discípulos de Jesus?", options: ["7", "10", "12"], correct: 2 },
             { q: "Onde Jesus nasceu?", options: ["Jerusalém", "Belém", "Nazaré"], correct: 1 },
             { q: "Cova dos leões?", options: ["Daniel", "José", "João"], correct: 0 },
             { q: "Primeiro livro da Bíblia?", options: ["Mateus", "Gênesis", "Apocalipse"], correct: 1 }
-            // Adicione aqui as outras 40 perguntas seguindo o mesmo formato...
+            // Adicione as outras 40 conforme necessário
         ];
 
         let currentPlayer = 1;
@@ -92,7 +99,7 @@
         const grid = document.getElementById('questions-grid');
         questions.forEach((q, i) => {
             const btn = document.createElement('button');
-            btn.className = "card-pergunta bg-white rounded-xl p-2 font-kids text-blue-200 shadow-md h-12 hover:scale-110 transition";
+            btn.className = "card-pergunta bg-white rounded-xl p-2 font-kids text-blue-200 shadow-md h-12 flex items-center justify-center hover:scale-110 transition";
             btn.innerText = i + 1;
             btn.id = `q-${i}`;
             btn.onclick = () => openQuestion(i);
@@ -101,29 +108,50 @@
 
         function openQuestion(index) {
             const modal = document.getElementById('quizModal');
+            const overlay = document.getElementById('feedback-overlay');
+            overlay.innerHTML = '';
             document.getElementById('question-text').innerText = questions[index].q;
+            
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
             questions[index].options.forEach((opt, i) => {
                 const b = document.createElement('button');
-                b.className = "py-4 rounded-2xl font-bold text-white bg-blue-400 hover:bg-blue-500 transition shadow-md";
+                b.className = "py-4 rounded-2xl font-bold text-white bg-blue-400 transition-all shadow-md transform";
                 b.innerText = opt;
-                b.onclick = () => {
-                    if(i === questions[index].correct) {
-                        if(currentPlayer === 1) score1++; else score2++;
-                        document.getElementById('score1').innerText = score1;
-                        document.getElementById('score2').innerText = score2;
-                    }
-                    document.getElementById(`q-${index}`).disabled = true;
-                    modal.classList.remove('active');
-                    answeredCount++;
-                    if(answeredCount === questions.length) showWinner();
-                    else togglePlayer();
-                };
+                b.onclick = () => handleAnswer(b, index, i);
                 container.appendChild(b);
             });
             modal.classList.add('active');
+        }
+
+        function handleAnswer(btn, qIdx, choiceIdx) {
+            const isCorrect = questions[qIdx].correct === choiceIdx;
+            const overlay = document.getElementById('feedback-overlay');
+            
+            // Desabilita botões para evitar duplo clique
+            const allBtns = document.querySelectorAll('#options-container button');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if(isCorrect) {
+                btn.classList.replace('bg-blue-400', 'bg-green-500');
+                overlay.innerHTML = '<i class="fas fa-star text-yellow-400 text-9xl star-anim"></i>';
+                if(currentPlayer === 1) score1++; else score2++;
+            } else {
+                btn.classList.replace('bg-blue-400', 'bg-red-500');
+                overlay.innerHTML = '<i class="fas fa-times-circle text-red-500 text-9xl star-anim"></i>';
+            }
+
+            document.getElementById('score1').innerText = score1;
+            document.getElementById('score2').innerText = score2;
+            document.getElementById(`q-${qIdx}`).disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('quizModal').classList.remove('active');
+                answeredCount++;
+                if(answeredCount === questions.length) showWinner();
+                else togglePlayer();
+            }, 1200);
         }
 
         function togglePlayer() {
@@ -138,7 +166,6 @@
         function showWinner() {
             const n1 = document.getElementById('name1').value || "Jogador 1";
             const n2 = document.getElementById('name2').value || "Jogador 2";
-            const winModal = document.getElementById('winModal');
             let winner, rival;
 
             if(score1 > score2) { winner = n1; rival = n2; }
@@ -147,7 +174,7 @@
 
             document.getElementById('win-title').innerText = `PARABÉNS ${winner}!`;
             document.getElementById('rival-msg').innerText = `${rival}, tenta de novo que você consegue! 😂`;
-            winModal.classList.add('active');
+            document.getElementById('winModal').classList.add('active');
         }
     </script>
 </body>
