@@ -87,3 +87,94 @@
             { q: "Para onde Jonas fugiu?", options: ["Nínive", "Tarsis", "Roma"], correct: 1 },
             { q: "Quem era o homem mais sábio?", options: ["Salomão", "Daniel", "Davi"], correct: 0 },
             { q: "Nome do primeiro homem?", options: ["Abraão", "Adão", "Noé"], correct: 1 },
+            { q: "Nome da primeira mulher?", options: ["Eva", "Sara", "Maria"], correct: 0 },
+            { q: "Comida que caiu do céu?", options: ["Pão", "Maná", "Frutas"], correct: 1 },
+            { q: "Quantos mandamentos existem?", options: ["5", "10", "12"], correct: 1 },
+            { q: "Sansão tinha força no...?", options: ["Cabelo", "Cinto", "Braço"], correct: 0 },
+            { q: "Jesus curou 10 homens que tinham...?", options: ["Febre", "Lepra", "Cegueira"], correct: 1 },
+            { q: "Pai da Fé?", options: ["Pedro", "Abraão", "Jacó"], correct: 1 },
+            { q: "Mar que Moisés atravessou?", options: ["Mar Morto", "Mar Vermelho", "Mar da Galileia"], correct: 1 },
+            { q: "Quem subiu na árvore para ver Jesus?", options: ["Zaqueu", "Mateus", "Bartimeu"], correct: 0 },
+            { q: "Rei que queria matar Jesus bebê?", options: ["Herodes", "Pilatos", "César"], correct: 0 },
+            { q: "O que os magos seguiram?", options: ["Mapa", "Estrela", "Nuvem"], correct: 1 },
+            { q: "Jesus é o nosso Bom...?", options: ["Mestre", "Pastor", "Amigo"], correct: 1 },
+            { q: "Quantas pragas no Egito?", options: ["7", "10", "12"], correct: 1 },
+            { q: "Sobreviveram à fornalha?", options: ["Daniel", "3 amigos", "José"], correct: 1 },
+            { q: "Quem perdeu tudo e não reclamou?", options: ["Jó", "Lázaro", "Paulo"], correct: 0 },
+            { q: "Qual animal falou com Balaão?", options: ["Cachorro", "Jumenta", "Leão"], correct: 1 },
+            { q: "Cidade que as muralhas caíram?", options: ["Jericó", "Babilônia", "Tiro"], correct: 0 },
+            { q: "Jesus é o Filho de...?", options: ["Davi", "Deus", "José"], correct: 1 },
+            { q: "Último livro da Bíblia?", options: ["Salmos", "João", "Apocalipse"], correct: 2 }
+        ];
+
+        let currentPlayer = 1, score1 = 0, score2 = 0, answeredCount = 0;
+        const grid = document.getElementById('questions-grid');
+        
+        questions.forEach((q, i) => {
+            const btn = document.createElement('button');
+            btn.className = "card-pergunta font-kids rounded-3xl h-16";
+            btn.innerText = i + 1;
+            btn.id = `q-${i}`;
+            btn.onclick = () => openQuestion(i);
+            grid.appendChild(btn);
+        });
+
+        function openQuestion(index) {
+            const modal = document.getElementById('quizModal');
+            document.getElementById('feedback-overlay').innerHTML = '';
+            document.getElementById('question-text').innerText = questions[index].q;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            questions[index].options.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = "py-5 rounded-3xl font-bold text-white bg-blue-500 shadow-md text-lg";
+                b.innerText = opt;
+                b.onclick = () => handleAnswer(b, index, i);
+                container.appendChild(b);
+            });
+            modal.classList.add('active');
+        }
+
+        function handleAnswer(btn, qIdx, choiceIdx) {
+            const isCorrect = questions[qIdx].correct === choiceIdx;
+            const overlay = document.getElementById('feedback-overlay');
+            document.querySelectorAll('#options-container button').forEach(b => b.style.pointerEvents = 'none');
+            if(isCorrect) {
+                btn.classList.replace('bg-blue-500', 'bg-green-600');
+                overlay.innerHTML = '<i class="fas fa-star text-yellow-400 text-9xl star-anim"></i>';
+                if(currentPlayer === 1) score1++; else score2++;
+            } else {
+                btn.classList.replace('bg-blue-500', 'bg-red-600');
+                overlay.innerHTML = '<i class="fas fa-times-circle text-white text-9xl star-anim"></i>';
+            }
+            document.getElementById('score1').innerText = score1;
+            document.getElementById('score2').innerText = score2;
+            document.getElementById(`q-${qIdx}`).disabled = true;
+            setTimeout(() => {
+                document.getElementById('quizModal').classList.remove('active');
+                answeredCount++;
+                if(answeredCount === questions.length) showWinner(); else togglePlayer();
+            }, 1400);
+        }
+
+        function togglePlayer() {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            document.getElementById('p1-area').classList.toggle('player-active');
+            document.getElementById('p2-area').classList.toggle('player-active');
+            const n1 = document.getElementById('name1').value || "Criança 1", n2 = document.getElementById('name2').value || "Criança 2";
+            const ind = document.getElementById('turn-indicator');
+            ind.innerText = `Vez de: ${currentPlayer === 1 ? n1 : n2}`;
+            ind.style.backgroundColor = currentPlayer === 1 ? '#3b82f6' : '#ec4899';
+        }
+
+        function showWinner() {
+            const n1 = document.getElementById('name1').value || "Criança 1", n2 = document.getElementById('name2').value || "Criança 2";
+            let winner, rival;
+            if(score1 > score2) { winner = n1; rival = n2; } else if(score2 > score1) { winner = n2; rival = n1; } else { winner = "Empate!"; rival = "Amigos"; }
+            document.getElementById('win-title').innerText = `PARABÉNS ${winner}!`;
+            document.getElementById('rival-msg').innerText = `${rival}, tenta de novo que você consegue! 😂`;
+            document.getElementById('winModal').classList.add('active');
+        }
+    </script>
+</body>
+</html>
