@@ -4,80 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⭐ Desafio Bíblico Kids | ImpulsoWeb10</title>
-    
-    <meta property="og:title" content="⭐ Desafio Bíblico Kids - Jogue Agora!">
-    <meta property="og:description" content="50 perguntas bíblicas divertidas para crianças. Quem ganha o desafio?">
-    <meta property="og:image" content="https://impulsoweb10.github.io/Jogos-biblicos/capa-jogo.jpg">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        body { 
-            font-family: 'Quicksand', sans-serif; 
-            background: linear-gradient(135deg, #fff3e0 0%, #e0f7fa 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-        }
-        
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f9a825' fill-opacity='0.04' fill-rule='evenodd'%3E%3Ccircle cx='40' cy='40' r='10'/%3E%3C/g%3E%3C/svg%3E");
-            z-index: -1;
-        }
-
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, #fff3e0 0%, #e0f7fa 100%); background-attachment: fixed; min-height: 100vh; display: flex; flex-direction: column; margin: 0; }
+        body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f9a825' fill-opacity='0.04' fill-rule='evenodd'%3E%3Ccircle cx='40' cy='40' r='10'/%3E%3C/g%3E%3C/svg%3E"); z-index: -1; }
         .font-kids { font-family: 'Fredoka One', cursive; }
-        
-        .modal { 
-            display: none; 
-            position: fixed; 
-            inset: 0; 
-            z-index: 100; 
-            align-items: center; 
-            justify-content: center; 
-            background: rgba(0, 10, 30, 0.7); 
-            backdrop-filter: blur(10px); 
-        }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0, 10, 30, 0.7); backdrop-filter: blur(10px); }
         .modal.active { display: flex; }
-        
-        .player-active { 
-            ring: 10px; 
-            ring-color: #fdd835; 
-            transform: scale(1.03); 
-            box-shadow: 0 20px 25px -5px rgba(253, 216, 53, 0.3);
-            z-index: 10; 
-            transition: all 0.4s ease-out;
-            background: white !important;
-        }
-        
-        .card-pergunta { 
-            background: rgba(255, 255, 255, 0.7) !important; 
-            backdrop-filter: blur(4px);
-            border: 2px solid white;
-            transition: all 0.3s ease;
-        }
-        .card-pergunta:hover { 
-            transform: translateY(-5px) scale(1.05); 
-            background: white !important; 
-        }
-        .card-pergunta:disabled { 
-            background: rgba(200, 210, 220, 0.4) !important; 
-            color: #cbd5e1; 
-            cursor: not-allowed; 
-            transform: none !important; 
-        }
-
-        @keyframes star-pop { 
-            0% { transform: scale(0); opacity: 0; } 
-            50% { transform: scale(1.8); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 1; } 
-        }
+        .player-active { ring: 10px; ring-color: #fdd835; transform: scale(1.03); box-shadow: 0 20px 25px -5px rgba(253, 216, 53, 0.3); z-index: 10; transition: all 0.4s ease-out; background: white !important; }
+        .card-pergunta { background: rgba(255, 255, 255, 0.7) !important; backdrop-filter: blur(4px); border: 2px solid white; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .card-pergunta:disabled { background: rgba(200, 210, 220, 0.4) !important; color: #cbd5e1; cursor: not-allowed; }
+        @keyframes star-pop { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 1; } }
         .star-anim { animation: star-pop 0.6s ease-out forwards; }
     </style>
 </head>
@@ -85,38 +24,66 @@
 
     <header class="max-w-4xl mx-auto text-center mb-8 w-full">
         <h1 class="text-4xl md:text-6xl text-blue-700 font-kids mb-8 drop-shadow-lg uppercase">Desafio Bíblico Kids</h1>
-        
         <div class="grid grid-cols-2 gap-6">
             <div id="p1-area" class="bg-white/60 p-5 rounded-[2.5rem] shadow-xl border-b-8 border-blue-500 player-active">
                 <input type="text" id="name1" placeholder="Criança 1" class="w-full text-center font-bold text-blue-700 outline-none bg-blue-50 rounded-2xl py-2 uppercase text-xs">
                 <div class="text-6xl font-kids text-blue-600 mt-2" id="score1">0</div>
             </div>
-            
             <div id="p2-area" class="bg-white/60 p-5 rounded-[2.5rem] shadow-xl border-b-8 border-pink-500">
                 <input type="text" id="name2" placeholder="Criança 2" class="w-full text-center font-bold text-pink-700 outline-none bg-pink-50 rounded-2xl py-2 uppercase text-xs">
                 <div class="text-6xl font-kids text-pink-600 mt-2" id="score2">0</div>
             </div>
         </div>
-        
-        <div id="turn-indicator" class="mt-6 bg-yellow-500 text-white inline-block px-10 py-3 rounded-full font-black uppercase text-sm shadow-xl animate-pulse">
-            Vez de começar! 🚀
-        </div>
+        <div id="turn-indicator" class="mt-6 bg-blue-500 text-white inline-block px-10 py-3 rounded-full font-black uppercase text-sm shadow-xl">Vez de começar! 🚀</div>
     </header>
 
     <main class="max-w-6xl mx-auto grid grid-cols-5 md:grid-cols-10 gap-3 mb-12" id="questions-grid"></main>
 
     <footer class="mt-auto py-10 text-center w-full max-w-4xl mx-auto border-t border-gray-300/30">
         <div class="mb-6">
-            <a href="https://api.whatsapp.com/send?text=🏆 Jogue o Desafio Bíblico Kids! https://impulsoweb10.github.io/Jogos-biblicos/" target="_blank" class="bg-green-500 text-white px-8 py-4 rounded-full font-black shadow-xl hover:bg-green-600 transition inline-flex items-center uppercase text-xs tracking-widest">
+            <a href="https://api.whatsapp.com/send?text=🏆 Jogue o Desafio Bíblico Kids! https://impulsoweb10.github.io/Jogos-biblicos/" target="_blank" class="bg-green-500 text-white px-8 py-4 rounded-full font-black shadow-xl inline-flex items-center uppercase text-xs tracking-widest">
                 <i class="fab fa-whatsapp mr-2 text-lg"></i> Convidar Amigos
             </a>
         </div>
-        <p class="text-gray-500 font-bold text-sm tracking-widest uppercase">
+        <p class="text-gray-500 font-bold text-sm tracking-widest uppercase italic">
             Desenvolvido por: <span class="text-blue-600">Impulso</span><span class="text-orange-600">Web10</span>
         </p>
     </footer>
 
-    <div id="quizModal" class="modal">
-        <div class="bg-white w-full max-w-lg rounded-[3.5rem] p-10 m-4 shadow-2xl text-center relative overflow-hidden">
-            <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20"></div>
-            <h3 id="question-text" class="
+    <div id="quizModal" class="modal"><div class="bg-white w-full max-w-lg rounded-[3.5rem] p-10 m-4 shadow-2xl text-center relative overflow-hidden"><div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20"></div><h3 id="question-text" class="text-2xl font-kids text-blue-950 mb-10 leading-tight">?</h3><div class="flex flex-col gap-4" id="options-container"></div></div></div>
+    <div id="winModal" class="modal"><div class="bg-white w-full max-w-xl rounded-[4rem] p-12 m-4 shadow-2xl text-center border-8 border-yellow-400"><div class="text-9xl mb-6 animate-bounce">🏆</div><h2 id="win-title" class="text-5xl font-kids text-blue-600 mb-6 uppercase"></h2><p id="rival-msg" class="text-2xl font-bold text-gray-500 italic mb-10"></p><button onclick="location.reload()" class="bg-orange-500 text-white px-12 py-5 rounded-full font-black uppercase shadow-2xl">Jogar de Novo</button></div></div>
+
+    <script>
+        const questions = [
+            { q: "Quem construiu a arca?", options: ["Noé", "Moisés", "Davi"], correct: 0 },
+            { q: "Quem derrotou o gigante Golias?", options: ["Samuel", "Davi", "Saul"], correct: 1 },
+            { q: "Quem foi engolido por um grande peixe?", options: ["Jonas", "Pedro", "Paulo"], correct: 0 },
+            { q: "Quantos pães o menino deu para Jesus?", options: ["10 pães", "5 pães", "2 pães"], correct: 1 },
+            { q: "Qual o nome da mãe de Jesus?", options: ["Rute", "Ester", "Maria"], correct: 2 },
+            { q: "Quem abriu o Mar Vermelho?", options: ["Josué", "Moisés", "Elias"], correct: 1 },
+            { q: "Homem mais forte da Bíblia?", options: ["Sansão", "Gideão", "Pedro"], correct: 0 },
+            { q: "Quantos discípulos Jesus tinha?", options: ["7", "10", "12"], correct: 2 },
+            { q: "Onde Jesus nasceu?", options: ["Jerusalém", "Belém", "Nazaré"], correct: 1 },
+            { q: "Quem foi jogado na cova dos leões?", options: ["Daniel", "José", "João"], correct: 0 },
+            { q: "Qual o primeiro livro da Bíblia?", options: ["Mateus", "Gênesis", "Êxodo"], correct: 1 },
+            { q: "Pai de Salomão?", options: ["Davi", "Saul", "Abraão"], correct: 0 },
+            { q: "O que o arco-íris representa?", options: ["Chuva", "Aliança de Deus", "Fim do mundo"], correct: 1 },
+            { q: "Quem foi vendido pelos irmãos?", options: ["Benjamim", "José", "Isaque"], correct: 1 },
+            { q: "Zaqueu era muito...?", options: ["Alto", "Rico", "Baixo"], correct: 2 },
+            { q: "Quantos dias Deus criou o mundo?", options: ["6 dias", "7 dias", "10 dias"], correct: 0 },
+            { q: "Quem andou sobre as águas com Jesus?", options: ["João", "Tiago", "Pedro"], correct: 2 },
+            { q: "Profissão de Jesus na terra?", options: ["Pescador", "Carpinteiro", "Médico"], correct: 1 },
+            { q: "Recebeu os 10 mandamentos?", options: ["Moisés", "Arão", "Miriã"], correct: 0 },
+            { q: "Como Davi venceu Golias?", options: ["Espada", "Funda e pedra", "Arco"], correct: 1 },
+            { q: "Nome do jardim onde Adão vivia?", options: ["Éden", "Getsêmani", "Oliveiras"], correct: 0 },
+            { q: "Irmão de Moisés?", options: ["Arão", "Caim", "Lázaro"], correct: 0 },
+            { q: "Passarinho que Noé soltou primeiro?", options: ["Pomba", "Corvo", "Pardal"], correct: 1 },
+            { q: "Jesus transformou água em...?", options: ["Suco", "Vinho", "Leite"], correct: 1 },
+            { q: "Quem foi ressuscitado por Jesus?", options: ["Lázaro", "Estêvão", "Lucas"], correct: 0 },
+            { q: "Qual o nome do gigante?", options: ["Sansão", "Golias", "Elias"], correct: 1 },
+            { q: "Esposa de Abraão?", options: ["Sara", "Rebeca", "Lia"], correct: 0 },
+            { q: "O que Noé usou para cobrir a arca?", options: ["Folhas", "Piche", "Tecido"], correct: 1 },
+            { q: "Quem batizou Jesus?", options: ["Pedro", "João Batista", "André"], correct: 1 },
+            { q: "Para onde Jonas fugiu?", options: ["Nínive", "Tarsis", "Roma"], correct: 1 },
+            { q: "Quem era o homem mais sábio?", options: ["Salomão", "Daniel", "Davi"], correct: 0 },
+            { q: "Nome do primeiro homem?", options: ["Abraão", "Adão", "Noé"], correct: 1 },
